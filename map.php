@@ -5,6 +5,7 @@
         <style>
             #map {
                 height: 100%;
+                width: 100%;
             }
             html, body {
                 height: 100%;
@@ -16,12 +17,10 @@
     <body>
     <div id="map"></div>
     <div><p>aaa</p></div>
+    <script type="text/javascript" src="style.js"> 
+    </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtelxbrcYzsm362x1oz4vOZaLLQp6lv0k&callback=initMap"
             async defer>        
     </script>
-    <script type="text/javascript" src="style.css"> 
-        
-    </script>
-    
     </body>
 </html>
