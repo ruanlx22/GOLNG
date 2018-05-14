@@ -80,15 +80,27 @@ if ($connection->query($sql) === true) {
     echo "Error in creating company table " . $connection->error . "</br>";
 }
 
-$sql = "INSERT INTO `company` (`id`, `name`, `lat`, `lon`, `decription`, `url`, `image`, `category`) VALUES (NULL, 'WhiteSmoke AB', '57.688543', '11.906423', 'White Smoke run a consultacy business under the brand name White Smoke Consulting. The consulting part of White Smoke assist clients with technical, commersial and regulatory expertise as well as project management services related to LNG as marine fuel and LNG Bunkering. White Smoke is also a part owner of White Smoke Shipping AB, a company dedicated to the supply of LNG feedering and bunkering services.', 'http://www.whitesmoke.se', 'http://www.whitesmoke.se/images/WS1%20low%20wide%20small%202%20text.jpg', 'Consulting');";
+//Here add userinfo
+$sql = "INSERT INTO userinfo (name, password)
+        VALUES
+        ('nero', '22222')";
 
-if ($connection->query($sql) === true) {
-    echo "Company added successfully" . "</br>";
-} else {
-    echo "Error in adding company data" . $connection->error . "</br>";
+if($connection->query($sql) === TRUE){
+  echo " userinfo INSERTED successfully!" . "</br>";
+}else {
+  echo "Error INSERTING ingredients DATA!" . $connection->error . "</br>" ;
 }
 
+//here add companyinfo 
+$sql = "INSERT INTO company (name, lat, lon, decription, url, image, category)
+        VALUES
+        ('test company', '222', '222', 'a test ', 'nonono', 'nonono', 'nonono' )";
 
+if($connection->query($sql) === TRUE){
+  echo " company INSERTED successfully!" . "</br>";
+}else {
+  echo "Error INSERTING company DATA!" . $connection->error . "</br>" ;
+}
 ?> 
 
 
