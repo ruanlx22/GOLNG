@@ -8,7 +8,7 @@ class company
  private $lon;
  private $description;
  private $url;
- private $img;
+ private $image;
  private $category;
 
     /**
@@ -110,7 +110,7 @@ class company
     /**
      * @param mixed $img
      */
-    public function setImg($img)
+    public function setImage($img)
     {
         $this->img = $img;
     }
@@ -118,7 +118,7 @@ class company
     /**
      * @return mixed
      */
-    public function getImg()
+    public function getImage()
     {
         return $this->img;
     }
@@ -139,7 +139,7 @@ class company
         return $this->category;
     }
 
-    public function __construct($id,$name,$lat,$lon,$description,$url,$img,$category)
+    public function __construct($id,$name,$lat,$lon,$description,$url,$image,$category)
     {
         $this->id=$id;
         $this->name=$name;
@@ -147,7 +147,7 @@ class company
         $this->lon=$lon;
         $this->description=$description;
         $this->url=$url;
-        $this->img=$img;
+        $this->image=$image;
         $this->category=$category;
     }
 }

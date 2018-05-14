@@ -24,7 +24,7 @@ $count = 0;
 $companyArray = [];
 while($row = $results->fetch_assoc()){
 //    $count++;
-    $company = new company($row['id'],$row['name'],$row['lat'],$row['lon'],$row['description'],$row['url'],$row['img'],$row['category']);
+    $company = new company($row['id'],$row['name'],$row['lat'],$row['lon'],$row['description'],$row['url'],$row['image'],$row['category']);
     $companyArray[] = $company;
 }
 

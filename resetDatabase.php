@@ -68,7 +68,7 @@ id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 name varchar(100) DEFAULT NULL,
 lat DOUBLE DEFAULT NULL,
 lon DOUBLE DEFAULT NULL,
-decription text NOT NULL,
+description text NOT NULL,
 url varchar(255) NOT NULL,
 image varchar(255) NOT NULL,
 category varchar(50) NOT NULL
@@ -92,7 +92,7 @@ if($connection->query($sql) === TRUE){
 }
 
 //here add companyinfo 
-$sql = "INSERT INTO company (id, name, lat, lon, decription, url, image, category)
+$sql = "INSERT INTO company (id, name, lat, lon, description, url, image, category)
         VALUES
         (NULL ,'WhiteSmoke AB', '57.688543', '11.906423', 'White Smoke run a consultacy business under the brand name White Smoke Consulting. The consulting part of White Smoke assist clients with  technical, commersial and regulatory expertise as well as project management services related to LNG as marine fuel and LNG Bunkering. White Smoke is also a part owner of White Smoke Shipping AB, a company dedicated to the supply of LNG feedering and bunkering services. ', 'http://www.whitesmoke.se', 'http://www.whitesmoke.se/images/WS1%20low%20wide%20small%202%20text.jpg', 'Consulting' ),
         (NULL ,'AGA Gas AB','59.349846','18.144529','Industrial gases from AGA play a crucial part in metallurgical processes, in chemical industry, food industry, environmental protection, while manufacturing glass and electronics, construction, pharmaceutical industry and research and development.','http://www.aga.com/international/web/lg/aga/like35agacom.nsf/docbyalias/homepage','http://www.aga.com/international/web/lg/aga/like35agacom.nsf/repositorybyalias/like30headimg/\$file/headImage_default.jpg','Consulting'),
