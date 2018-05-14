@@ -62,7 +62,23 @@ if ($connection->query($sql) === true) {
     echo "Error in creating userinfo table " . $connection->error . "</br>";
 }
 
-//another table??
+//company table 
+$sql = "CREATE TABLE company (
+id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+name varchar(100) DEFAULT NULL,
+let float DEFAULT NULL,
+loon float DEFAULT NULL,
+decription text NOT NULL,
+url varchar(255) NOT NULL,
+image varchar(255) NOT NULL,
+category char NOT NULL
+)ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci";
+
+if ($connection->query($sql) === true) {
+    echo "company table created successfully" . "</br>";
+} else {
+    echo "Error in creating company table " . $connection->error . "</br>";
+}
 
 ?> 
 
