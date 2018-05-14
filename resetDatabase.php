@@ -1,13 +1,16 @@
 <?php
 //resetDatabase.php
-
+//error report
+ini_set('display_errors',1);
+ini_set('display_startup_errors' ,1);
+error_reporting(E_ALL);
 //ensure user name and password fit for your phpadmin
 $server = "localhost";
 $userName = "root";
-$password = "";
+$password = "root";
 
 //connect to database
-$connection = mysql_connect($server, $userName, $password);
+$connection = mysqli_connect($server, $userName, $password);
 
 // die if connection is invalid
 if (!$connection){
@@ -46,6 +49,21 @@ mysqli_select_db($connection,"GOLNG");
 //Tables-Begin
 //Add table here
 
-//user table 
+//user_table
+$sql = "CREATE TABLE userinfo (
+id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+name varchar(100) DEFAULT NULL,
+password varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci";
+
+if ($connection->query($sql) === true) {
+    echo "userinfo table created successfully" . "</br>";
+} else {
+    echo "Error in creating userinfo table " . $connection->error . "</br>";
+}
+
+//another table??
+
+?> 
 
 
