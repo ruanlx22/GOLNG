@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 //ensure user name and password fit for your phpadmin
 $server = "localhost";
 $userName = "root";
-$password = "root";
+$password = "";
 
 //connect to database
 $connection = mysqli_connect($server, $userName, $password);
@@ -66,12 +66,12 @@ if ($connection->query($sql) === true) {
 $sql = "CREATE TABLE company (
 id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 name varchar(100) DEFAULT NULL,
-let float DEFAULT NULL,
-loon float DEFAULT NULL,
+lat float DEFAULT NULL,
+lon float DEFAULT NULL,
 decription text NOT NULL,
 url varchar(255) NOT NULL,
 image varchar(255) NOT NULL,
-category char NOT NULL
+category varchar(50) NOT NULL
 )ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci";
 
 if ($connection->query($sql) === true) {
@@ -79,6 +79,15 @@ if ($connection->query($sql) === true) {
 } else {
     echo "Error in creating company table " . $connection->error . "</br>";
 }
+
+$sql = "INSERT INTO `company` (`id`, `name`, `lat`, `lon`, `decription`, `url`, `image`, `category`) VALUES (NULL, 'WhiteSmoke AB', '57.688543', '11.906423', 'White Smoke run a consultacy business under the brand name White Smoke Consulting. The consulting part of White Smoke assist clients with technical, commersial and regulatory expertise as well as project management services related to LNG as marine fuel and LNG Bunkering. White Smoke is also a part owner of White Smoke Shipping AB, a company dedicated to the supply of LNG feedering and bunkering services.', 'http://www.whitesmoke.se', 'http://www.whitesmoke.se/images/WS1%20low%20wide%20small%202%20text.jpg', 'Consulting');";
+
+if ($connection->query($sql) === true) {
+    echo "Company added successfully" . "</br>";
+} else {
+    echo "Error in adding company data" . $connection->error . "</br>";
+}
+
 
 ?> 
 
