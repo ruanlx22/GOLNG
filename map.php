@@ -61,14 +61,7 @@ while($row = $results->fetch_assoc()){
                 zoom: 5,
                 center: {lat: 59.304,lng: 18.080},
                 styles: [
-                    {
-                        "elementType": "geometry",
-                        "stylers": [
-                            {
-                                "color": "#f5f5f5"
-                            }
-                        ]
-                    },
+                    
                     {
                         "featureType": "administrative.land_parcel",
                         "stylers": [
