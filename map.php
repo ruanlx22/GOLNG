@@ -53,10 +53,41 @@ while($row = $results->fetch_assoc()){
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtelxbrcYzsm362x1oz4vOZaLLQp6lv0k&callback=initMap"
             async defer>        
     </script>
+    <script>
+        var customLabel = {
+                Bunkering: {
+                    label: 'B'
+                },
+                Consulting: {
+                    label: 'C'
+                },
+                Education: {
+                    label: 'E'
+                },
+                End-user technologies:{
+                    label: 'e'
+                },
+                Ports: {
+                    label: 'P'
+                },
+                Research: {
+                    label: 'R'
+                },
+                Shipbuilding&Repair: {
+                    label: 's'
+                },
+                Shipping: {
+                    label: 'S'
+                },
+                Training: {
+                    label: 'T'
+                }
+            };
+            
+    </script>
     <script type="text/javascript" >
         function initMap() {
-            // var myLabel2 = {lat: 59.304,lng: 18.080};
-            // var myLabel = {lat:-25.363, lng:131.044};
+            
             var map = new google.maps.Map(document.getElementById('map'),{
                 zoom: 5,
                 center: {lat: 59.304,lng: 18.080},
@@ -207,24 +238,23 @@ while($row = $results->fetch_assoc()){
                     }
                 ]
             });
-            // var marker = new google.maps.Marker({
-            //     position: myLabel,
-            //     map: map
-            // });
-            // var marker2 = new google.maps.Marker({
-            //     position: myLabel2,
-            //     map: map
-            // });
+            
             <?php
             foreach ($companyArray as $sc){
                 $count++;
+                // echo $sc->getCategory();
+                // echo "var category = markerElem.getAttribute('".$sc->getCategory()."');";
+                // echo "var icon = customLabel[category] || {};";label: customLabel[".$sc->getCategory()."]
                 if($sc->getLat()!=null&&$sc->getLon()!=null){
+                    
                     echo "
                     var marker".$count." = new google.maps.Marker({
                     position: {lat:".$sc->getLat()." ,lng:".$sc->getLon()."},
-                    map:map
+                    map:map,
+                    label:'".substr($sc->getCategory(), 0,1)."'
                     });
                     ";
+
                 }
 
             }
