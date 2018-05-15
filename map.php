@@ -37,10 +37,10 @@ function matchCategory($category){
             $category_label = 'C';
             break;
         case 'Education':
-            $category_label = 'E';
+            $category_label = 'Edu';
             break;
         case 'end-user technologies':
-            $category_label = 'e';
+            $category_label = 'eut';
             break;
         case 'Ports':
             $category_label = 'P';
@@ -49,13 +49,16 @@ function matchCategory($category){
             $category_label = 'R';
             break;
         case 'Shipbuilding':
-            $category_label = 'S';
+            $category_label = 'Spb';
             break;
         case 'Shipping':
-            $category_label = 's';
+            $category_label = 'Sb';
+            break;
+        case 'Shipbuilding & Repair':
+            $category_label = 'S&R';
             break;
         case 'Storage':
-            $category_label = 'G';
+            $category_label = 'Stor';
             break;
         case 'Training':
             $category_label = 'T';
@@ -286,7 +289,7 @@ function matchCategory($category){
                     var marker".$count." = new google.maps.Marker({
                     position: {lat:".$sc->getLat()." ,lng:".$sc->getLon()."},
                     map:map,
-                    label:'".matchCategory($sc->getCategory())."'
+                    label:{ text: '".matchCategory($sc->getCategory())."'}
                     });
                     var contentString".$count." =
                     '<div>'
