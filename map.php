@@ -18,6 +18,7 @@ if ($results){
 } else {
     echo "Error get company info!" . $connection->error . "</br>" ;
 }
+
 $count = 0;
 $companyArray = [];
 while($row = $results->fetch_assoc()){
@@ -26,9 +27,45 @@ while($row = $results->fetch_assoc()){
     $companyArray[] = $company;
 }
 
-//foreach ($companyArray as $sc) {
-//    echo "<img src='" . $sc->getImage() . "'><br>";
-//}
+function matchCategory($category){
+    $category_label;
+    switch ($category) {
+        case "Bunkering":
+            $category_label = 'B';
+            break;
+        case "Consulting":
+            $category_label = 'C';
+            break;
+        case 'Education':
+            $category_label = 'E';
+            break;
+        case 'end-user technologies':
+            $category_label = 'e';
+            break;
+        case 'Ports':
+            $category_label = 'P';
+            break;
+        case 'Research':
+            $category_label = 'R';
+            break;
+        case 'Shipbuilding':
+            $category_label = 'S';
+            break;
+        case 'Shipping':
+            $category_label = 's';
+            break;
+        case 'Storage':
+            $category_label = 'G';
+            break;
+        case 'Training':
+            $category_label = 'T';
+            break;
+        default:
+            $category_label = '9';
+            break;
+    }
+    return $category_label;
+}
 
 ?>
 <!DOCTYPE html>
@@ -242,14 +279,14 @@ while($row = $results->fetch_assoc()){
                 $count++;
                 // echo $sc->getCategory();
                 // echo "var category = markerElem.getAttribute('".$sc->getCategory()."');";
-                // echo "var icon = customLabel[category] || {};";label: customLabel[".$sc->getCategory()."]
+                // echo "var icon = customLabel[category] || {};";label: customLabel[".$sc->getCategory()."].  label:'".substr($sc->getCategory(), 0,1)."'
                 if($sc->getLat()!=null&&$sc->getLon()!=null){
                     
                     echo "
                     var marker".$count." = new google.maps.Marker({
                     position: {lat:".$sc->getLat()." ,lng:".$sc->getLon()."},
                     map:map,
-                    label:'".substr($sc->getCategory(), 0,1)."'
+                    label:'".matchCategory($sc->getCategory())."'
                     });
                     var contentString".$count." =
                     '<div>'
