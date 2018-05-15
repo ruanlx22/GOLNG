@@ -110,9 +110,9 @@ class company
     /**
      * @param mixed $img
      */
-    public function setImage($img)
+    public function setImage($image)
     {
-        $this->img = $img;
+        $this->image = $image;
     }
 
     /**
@@ -120,7 +120,7 @@ class company
      */
     public function getImage()
     {
-        return $this->img;
+        return $this->image;
     }
 
     /**

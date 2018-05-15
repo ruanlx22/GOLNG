@@ -10,13 +10,11 @@ $conn = mysqli_connect($SERVER, $USER, $PASSWORD, $DB);
 if (!$conn){
     die("Connection to DB failed :" . mysqli_connect_error() . "</br>");
 }
-
-echo  "Successfully connected to DB!" . "</br>";
-
+//echo "company info get successfully!" . "</br>";
 $sql = "SELECT * FROM company";
 $results = mysqli_query($conn,$sql);
 if ($results){
-    echo "company info get successfully!" . "</br>";
+//    echo "company info get successfully!" . "</br>";
 } else {
     echo "Error get company info!" . $connection->error . "</br>" ;
 }
@@ -28,8 +26,8 @@ while($row = $results->fetch_assoc()){
     $companyArray[] = $company;
 }
 
-//foreach ($companyArray as $sc){
-//    echo $sc->getLat()."  ".$sc->getLon()."<br>";
+//foreach ($companyArray as $sc) {
+//    echo "<img src='" . $sc->getImage() . "'><br>";
 //}
 
 ?>
@@ -252,6 +250,20 @@ while($row = $results->fetch_assoc()){
                     position: {lat:".$sc->getLat()." ,lng:".$sc->getLon()."},
                     map:map,
                     label:'".substr($sc->getCategory(), 0,1)."'
+                    });
+                    var contentString".$count." =
+                    '<div>'
+                        +'<p>Company: ".$sc->getName()."</p>'
+                        +'<img src=\'".$sc->getImage()."\'>'
+                        +'<br>'
+                        +'<p>".htmlentities($sc->getDescription(), ENT_QUOTES)."</p>'
+                        +'<a href=\'".$sc->getUrl()."\'>Link</a>'
+                     +'</div>';
+                    var infoWindow".$count." = new google.maps.InfoWindow({
+                        content: contentString".$count."
+                    });
+                    marker".$count.".addListener('click', function() {
+                        infoWindow".$count.".open(map, marker".$count.");
                     });
                     ";
 
