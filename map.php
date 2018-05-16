@@ -84,10 +84,17 @@ function matchCategory($category){
                 margin: 0;
                 padding: 0;
             }
+            #legend {
+                background: #fff;
+                padding: 10px;
+                margin: 10px;
+                border: 3px solid #000;
+            }
         </style>
     </head>
     <body>
     <div id="map"></div>
+    <div id="legend"><h2><center>Legend</center></h2></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtelxbrcYzsm362x1oz4vOZaLLQp6lv0k&callback=initMap"
             async defer>        
     </script>
@@ -245,31 +252,23 @@ function matchCategory($category){
                     }
                 ]
             });
-            
             var infoWindow = new google.maps.InfoWindow;
-            
+            var categoryArray = new Array("Bunkering","Consulting","Education","end-user technologies","Ports","Research","Shipbuilding","Shipping","Shipbuilding & Repair","Storage","Training");
+            var shortCategoryArray = new Array("B","C","Edu","eut","P","R","Spb","Sb","S&R","Stor","T");
+
+            var legend = document.getElementById('legend');
+            for (var key in categoryArray) {
+                var div = document.createElement('div');
+                div.innerHTML = '<span>'+shortCategoryArray[key]+'----->'+categoryArray[key]+'</span>';
+                legend.appendChild(div);
+            }
+            map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+
             <?php
             foreach ($companyArray as $sc){
                 $count++;
-                // echo $sc->getCategory();
-                // echo "var category = markerElem.getAttribute('".$sc->getCategory()."');";
-                // echo "var icon = customLabel[category] || {};";label: customLabel[".$sc->getCategory()."].  label:'".substr($sc->getCategory(), 0,1)."'
-
-                /*
-                    var contentString".$count." =
-                    '<div>'
-                        +'<p>Company: ".$sc->getName()."</p>'
-                        +'<img src=\'".$sc->getImage()."\'>'
-                        +'<br>'
-                        +'<p>".htmlentities($sc->getDescription(), ENT_QUOTES)."</p>'
-                        +'<a href=\'".$sc->getUrl()."\'>Link</a>'
-                     +'</div>';
-
-                     infoWindow = new google.maps.InfoWindow({
-                        content: contentString".$count."});
-                */
+                
                 if($sc->getLat()!=null&&$sc->getLon()!=null){
-                    
                     echo "
                     var marker".$count." = new google.maps.Marker({
                     position: {lat:".$sc->getLat()." ,lng:".$sc->getLon()."},
