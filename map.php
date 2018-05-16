@@ -1,7 +1,7 @@
 <?php
 require_once('company.php');
 $USER = 'root';
-$PASSWORD = '';
+$PASSWORD = 'root';
 $SERVER = 'localhost';
 $DB = 'GOLNG';
 
@@ -91,38 +91,7 @@ function matchCategory($category){
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtelxbrcYzsm362x1oz4vOZaLLQp6lv0k&callback=initMap"
             async defer>        
     </script>
-    <script>
-        var customLabel = {
-                Bunkering: {
-                    label: 'B'
-                },
-                Consulting: {
-                    label: 'C'
-                },
-                Education: {
-                    label: 'E'
-                },
-                End-user technologies:{
-                    label: 'e'
-                },
-                Ports: {
-                    label: 'P'
-                },
-                Research: {
-                    label: 'R'
-                },
-                Shipbuilding&Repair: {
-                    label: 's'
-                },
-                Shipping: {
-                    label: 'S'
-                },
-                Training: {
-                    label: 'T'
-                }
-            };
-            
-    </script>
+    
     <script type="text/javascript" >
         function initMap() {
             
@@ -277,12 +246,28 @@ function matchCategory($category){
                 ]
             });
             
+            var infoWindow = new google.maps.InfoWindow;
+            
             <?php
             foreach ($companyArray as $sc){
                 $count++;
                 // echo $sc->getCategory();
                 // echo "var category = markerElem.getAttribute('".$sc->getCategory()."');";
                 // echo "var icon = customLabel[category] || {};";label: customLabel[".$sc->getCategory()."].  label:'".substr($sc->getCategory(), 0,1)."'
+
+                /*
+                    var contentString".$count." =
+                    '<div>'
+                        +'<p>Company: ".$sc->getName()."</p>'
+                        +'<img src=\'".$sc->getImage()."\'>'
+                        +'<br>'
+                        +'<p>".htmlentities($sc->getDescription(), ENT_QUOTES)."</p>'
+                        +'<a href=\'".$sc->getUrl()."\'>Link</a>'
+                     +'</div>';
+
+                     infoWindow = new google.maps.InfoWindow({
+                        content: contentString".$count."});
+                */
                 if($sc->getLat()!=null&&$sc->getLon()!=null){
                     
                     echo "
@@ -299,11 +284,9 @@ function matchCategory($category){
                         +'<p>".htmlentities($sc->getDescription(), ENT_QUOTES)."</p>'
                         +'<a href=\'".$sc->getUrl()."\'>Link</a>'
                      +'</div>';
-                    var infoWindow".$count." = new google.maps.InfoWindow({
-                        content: contentString".$count."
-                    });
                     marker".$count.".addListener('click', function() {
-                        infoWindow".$count.".open(map, marker".$count.");
+                        infoWindow.setContent(contentString".$count.");
+                        infoWindow.open(map, marker".$count.");
                     });
                     ";
 
