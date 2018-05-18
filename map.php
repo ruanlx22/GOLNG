@@ -105,6 +105,13 @@ function matchCategory($category){
             var map = new google.maps.Map(document.getElementById('map'),{
                 zoom: 5,
                 center: {lat: 59.304,lng: 18.080},
+                streetViewControl: false,
+                mapTypeControl: false,
+                // mapTypeControl: true,
+                // mapTypeControlOptions: {
+                //     style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                //     mapTypeIds: ['roadmap']
+                // }
                 styles: [
                     
                     {
@@ -256,6 +263,7 @@ function matchCategory($category){
             var categoryArray = new Array("Bunkering","Consulting","Education","end-user technologies","Ports","Research","Shipbuilding","Shipping","Shipbuilding & Repair","Storage","Training");
             var shortCategoryArray = new Array("B","C","Edu","eut","P","R","Spb","Sb","S&R","Stor","T");
 
+            /*Here is the legend for map */
             var legend = document.getElementById('legend');
             for (var key in categoryArray) {
                 var div = document.createElement('div');
@@ -264,6 +272,7 @@ function matchCategory($category){
             }
             map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 
+            /*Here is the label info window*/
             <?php
             foreach ($companyArray as $sc){
                 $count++;
