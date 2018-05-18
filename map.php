@@ -29,7 +29,7 @@ while($row = $results->fetch_assoc()){
 }
 
 function matchCategory($category){
-    $category_label;
+//    $category_label;
     switch ($category) {
         case "Bunkering":
             $category_label = 'B';
@@ -80,11 +80,6 @@ function matchCategory($category){
         <style>
             #map {
                 height: 100%;
-            }
-            html, body {
-                height: 100%;
-                margin: 0;
-                padding: 0;
             }
             #legend {
                 background: #fff;
@@ -316,29 +311,31 @@ function matchCategory($category){
                 $count++;
                 
                 if($sc->getLat()!=null&&$sc->getLon()!=null){
-                    echo "
-                    var marker".$count." = new google.maps.Marker({
-                    position: {lat:".$sc->getLat()." ,lng:".$sc->getLon()."},
+//                    echo "
+                    ?>
+                    var marker<?php echo $count?> = new google.maps.Marker({
+                    position: {lat:<?php echo $sc->getLat()?> ,lng:<?php echo $sc->getLon()?>},
                     map:map,
-                    label:{ text: '".matchCategory($sc->getCategory())."'}
+                    label:{ text: '<?php echo matchCategory($sc->getCategory())?>'}
                     });
-                    var contentString".$count." =
+                    var contentString<?php echo $count?> =
                     '<div>'
-                        +'<p>Company: ".$sc->getName()."</p>'
-                        +'<img src=\'".$sc->getImage()."\'>'
+                        +'<p>Company: <?php echo $sc->getName() ?></p>'
+                        +'<img src=\'<?php echo $sc->getImage() ?>\' class=\'logo\'>'
                         +'<br>'
-                        +'<p>".htmlentities($sc->getDescription(), ENT_QUOTES)."</p>'
-                        +'<a href=\'".$sc->getUrl()."\'>Link</a>'
+                        +'<p><?php echo htmlentities($sc->getDescription(), ENT_QUOTES)?></p>'
+                        +'<a href=\'<?php echo $sc->getUrl()?>\'>Link</a>'
                      +'</div>';
-                    marker".$count.".addListener('click', function() {
-                        infoWindow.setContent(contentString".$count.");
-                        infoWindow.open(map, marker".$count.");
+                    marker<?php echo $count?>.addListener('click', function() {
+                        infoWindow.setContent(contentString<?php echo $count ?>);
+                        infoWindow.open(map, marker<?php echo $count ?>);
                     });
                     map.addListener('click', function() {
-                        infoWindow".$count.".close();
+                        infoWindow.close();
                     });
                     
-                    ";
+                    // ";
+            <?php
 
                 }
 

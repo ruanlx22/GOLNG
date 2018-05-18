@@ -12,3 +12,8 @@ html, body {
 .info{
     color: red;
 }
+.logo{
+    width:200px;
+    height: 80px;
+    background-color: blanchedalmond;
+}
