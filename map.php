@@ -90,11 +90,18 @@ function matchCategory($category){
                 margin: 10px;
                 border: 3px solid #000;
             }
+            #filter {
+                background: #fff;
+                padding: 10px;
+                margin: 10px;
+                border: 3px solid #000;
+            }
         </style>
     </head>
     <body>
     <div id="map"></div>
     <div id="legend"><h2><center>Legend</center></h2></div>
+    <div id="filter"><h2><center>filter</center></h2></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtelxbrcYzsm362x1oz4vOZaLLQp6lv0k&callback=initMap"
             async defer>        
     </script>
@@ -263,13 +270,27 @@ function matchCategory($category){
             var categoryArray = new Array("Bunkering","Consulting","Education","end-user technologies","Ports","Research","Shipbuilding","Shipping","Shipbuilding & Repair","Storage","Training");
             var shortCategoryArray = new Array("B","C","Edu","eut","P","R","Spb","Sb","S&R","Stor","T");
 
+            /*Here is the filter for map  */
+
+
             /*Here is the legend for map */
             var legend = document.getElementById('legend');
+            var table = document.createElement('table');
+            legend.appendChild(table);
             for (var key in categoryArray) {
-                var div = document.createElement('div');
-                div.innerHTML = '<span>'+shortCategoryArray[key]+'----->'+categoryArray[key]+'</span>';
-                legend.appendChild(div);
+                // var div = document.createElement('div');
+                // div.innerHTML = '<tr><td width="20%">'+shortCategoryArray[key]+'</td><td width="30%"></td><td width="50%">'+categoryArray[key]+'</td></tr>';
+                // table.appendChild(div);
+                var tr = document.createElement('tr');
+                var td1 =document.createElement('td');
+                var td2 = document.createElement('td');
+                td1.innerHTML = shortCategoryArray[key];
+                td2.innerHTML = categoryArray[key];
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                table.appendChild(tr);
             }
+            
             map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 
             /*Here is the label info window*/
