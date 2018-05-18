@@ -1,7 +1,8 @@
 <?php
 require_once('company.php');
+session_start();
 $USER = 'root';
-$PASSWORD = 'root';
+$PASSWORD = '';
 $SERVER = 'localhost';
 $DB = 'GOLNG';
 
@@ -75,6 +76,7 @@ function matchCategory($category){
 <html>
     <head>
         <title>GO LNG</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
         <style>
             #map {
                 height: 100%;
@@ -99,6 +101,21 @@ function matchCategory($category){
         </style>
     </head>
     <body>
+
+    <nav style="background-color: cadetblue;padding: 0;">
+        <a href='map.php' class="navBar">Go LNG</a>
+        <span> | </span>
+        <?php
+            if(isset($_SESSION['user'])){
+                echo "<a class='navBar'>".$_SESSION['user'][1]->getName()."</a>";
+                echo "<span> | </span><a class='navBar' href='logout.php'>Log out</a>";
+            }
+            else{
+                echo "<a class='navBar' href='login.php'>Login</a>";
+            }
+        ?>
+    </nav>
+
     <div id="map"></div>
     <div id="legend"><h2><center>Legend</center></h2></div>
     <div id="filter"><h2><center>filter</center></h2></div>
@@ -317,6 +334,10 @@ function matchCategory($category){
                         infoWindow.setContent(contentString".$count.");
                         infoWindow.open(map, marker".$count.");
                     });
+                    map.addListener('click', function() {
+                        infoWindow".$count.".close();
+                    });
+                    
                     ";
 
                 }

@@ -53,7 +53,8 @@ mysqli_select_db($connection,"GOLNG");
 $sql = "CREATE TABLE userinfo (
 id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 name varchar(100) DEFAULT NULL,
-password varchar(50) DEFAULT NULL
+password varchar(50) DEFAULT NULL,
+company int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci";
 
 if ($connection->query($sql) === true) {
@@ -81,9 +82,9 @@ if ($connection->query($sql) === true) {
 }
 
 //Here add userinfo
-$sql = "INSERT INTO userinfo (name, password)
+$sql = "INSERT INTO userinfo (name, password, company)
         VALUES
-        ('nero', '22222')";
+        ('nero', '22222', '1')";
 
 if($connection->query($sql) === TRUE){
   echo " userinfo INSERTED successfully!" . "</br>";
@@ -115,7 +116,7 @@ $sql = "INSERT INTO company (id, name, lat, lon, description, url, image, catego
         (NULL ,'E.ON - Karlshamnkraft','56.163923','14.859039','E.ON Nordic is large provider and distributor of LNG. Mid Sweden Project •Market Potential 15-25 TWh in 1st Phase •600 km High Pressure Pipeline •First Deliveries in 2010 •Main Supply Option: LNG •Many supply options have been underconsideration over the years: •Extension of Grid from the South, severalroutes considered •Pipeline from Russia, Norway, Finland, Germany','http://www.karlshamnkraft.se','http://www.hldesign.se/System/ImageArchive/Image_56201.png','end-user technologies'),
         (NULL ,'Preem AB','59.339321','18.011455','Preem AB advise a new LNG plant will be built at Brofjorden in order to supply refinery with abt 250,000 t liquid natural gas. The LNG will substitute naphtha and butane in the process and are expected to reduce the refinerys carbon dioxide emissions by abt 100,000 t yearly. Preem expect facility to be up and running end of 2013.','http://www.preem.se','http://www.preem.se/images/logo.gif','end-user technologies'),
         (NULL ,'FKAB Marine Design','58.351105','11.927191','FKAB is an independent Marine Engineering Company, mainly active in the Marine and Shipbuilding Industry. We work internationally with offices in both Sweden and China.','http://www.fkab.com/','http://www.fkab.com/fileadmin/templates/mattsson_version2/images/logo-fkab.png','Shipbuilding & Repair'),
-        (NULL ,'Svenska Kraftnät','57.701189','11.946314','Svenska Kraftnät (Swedish national grid) is a state-owned public utility that has many different areas of work. One of Svenska Kraftnät’s important tasks is to transmit electricity from the major power stations to regional electrical grids, via the national electrical grid.In our control room, we monitor the national electrical and gas grids and ensure that there is always a balance between consumption and production in Sweden. Our work contributes to ensuring an electricity market where the players can purchase electricity in free competition.We are the government authority responsible for electricity preparedness and we work to reinforce the country’s electricity supply system to ensure it is able to withstand critical situations. We are also responsible for the natural gas system in Sweden, and we coordinate the country’s dam safety.','www.svk.se','http://www.svk.se/Web/Core/UI/Skins/standard/img/headline.png','end-user technologies'),
+        (NULL ,'Svenska Kraftnät','57.701189','11.946314','Svenska Kraftnät (Swedish national grid) is a state-owned public utility that has many different areas of work. One of Svenska Kraftnät’s important tasks is to transmit electricity from the major power stations to regional electrical grids, via the national electrical grid.In our control room, we monitor the national electrical and gas grids and ensure that there is always a balance between consumption and production in Sweden. Our work contributes to ensuring an electricity market where the players can purchase electricity in free competition.We are the government authority responsible for electricity preparedness and we work to reinforce the country’s electricity supply system to ensure it is able to withstand critical situations. We are also responsible for the natural gas system in Sweden, and we coordinate the country’s dam safety.','http://www.svk.se','http://www.svk.se/Web/Core/UI/Skins/standard/img/headline.png','end-user technologies'),
         (NULL ,'Öresundskraft AB','56.031401','12.703861','Öresundskraft sells customer-focused energy solutions and supply safe distribution. Bringing to the Öresund region confidence through employee customer, environment and community involvement.','http://www.oresundskraft.se','http://www.oresundskraft.se/styles/img/graphics/oresundskraft-logo.png','end-user technologies'),
         (NULL ,'Stockholms Gas','57.701189','11.946314','To offer our customers a safe gas, while contributing to a greener Stockholm is our primary mission. We have two separate gas networks. A gas is 60 mil long and contains the city gas. As early as 1853 city gas was introduced in Stockholm for the first time. Town gas is a part of Stockholm\'s history and some of Stockholm\'s future.The second gas grid is 4 mil and just recently built and includes vehicle. Vehicle reduce traffic emissions.','http://www.stockholmgas.se/','http://www.stockholmgas.se/PageFiles/5/Logo.png','end-user technologies'),
         (NULL ,'Göteborg Energi AB','57.7105','11.997423','Offer sustainable energy solutions for electricity, heating and gas.','http://www.goteborgenergi.se/','http://www.goteborgenergi.se/Templates2011/Images/Göteborg-Energi-Logotype.png','end-user technologies'),
@@ -128,8 +129,8 @@ $sql = "INSERT INTO company (id, name, lat, lon, description, url, image, catego
         (NULL ,'Stockholm liquefied Methane gas station','59.32893','18.06491','','','','end-user technologies'),
         (NULL ,'Enagas S.A','40.40357','-3.710346','Enagas, carrier and System Technical Manager, guarantees the continuity and security of natural gas supply.','http://www.enagas.es','http://www.enagas.es/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1146244006332&ssbinary=true','end-user technologies'),
         (NULL ,'Gothenburg Port','57.70887','11.97456','The Port of Gothenburg is the largest port in the Nordic region with 11,000 visits by vessels each year. One-third of Swedish foreign trade passes through the Port of Gothenburg as well as 60 per cent of all container traffic. The Port of Gothenburg is the only port in Sweden with the capacity to receive the world\'s largest container vessels and has the broadest range of shipping routes within and outside Europe. The 25 rail shuttles that depart each day mean that companies throughout Sweden and Norway have a direct, environmentally smart link to the largest port in the Nordic region. The Port of Gothenburg has terminals for oil, cars, ro-ro, containers and passengers.','http://www.portofgothenburg.com/','http://www.portofgothenburg.com/Global/LogoTypes/logga-rgb.jpg','Ports'),
-        (NULL ,'Nynäshamn port','58.905547','17.955489','','www.stoports.com','','Ports'),
-        (NULL ,'Port of Copenhagen & Malmö','55.620627','13.00378','','www.cmport.com','','Ports'),
+        (NULL ,'Nynäshamn port','58.905547','17.955489','','http://www.stoports.com','','Ports'),
+        (NULL ,'Port of Copenhagen & Malmö','55.620627','13.00378','','http://www.cmport.com','','Ports'),
         (NULL, 'Chalmers University','57.566028','11.247246','Chalmers and the Swedish Maritime Administration are creating a state of the art simulator centre for future research and education.','http://www.chalmers.se/en/departments/smt/news/Pages/Chalmers-and-the-Swedish-Maritime-Administration-creates-new-simulator-centre.aspx','http://www.chalmers.se/_layouts/ChalmersPublicWeb/images/topmenu-logo.png','Education'),
         (NULL ,'Swedish Maritime Administration','58.583034','16.190782','he Swedish Maritime Administration (SMA) offers modern and safe shipping routes with 24 hour service. We take responsibility for the future of shipping. SMA is a governmental agency and enterprise within the transport sector and is responsible for maritime safety and availability.','http://www.sjofartsverket.se/en','http://www.sjofartsverket.se/Templates/Main/Styles/images/structure/logo_en.png','Research'),
         (NULL ,'Alfa Laval','55.72379','13.156087','Creating the best heat transfer, separation and fluid handling technologies in the world for more than 125 years, Alfa Laval\'s products and solutions are used in such areas as food and water supply, energy, environmental protection and pharmaceuticals.','www.alfalaval.com','http://www.alfalaval.com/_layouts/images/horizon/logo_top.gif','end-user technologies'),
@@ -146,6 +147,9 @@ if($connection->query($sql) === TRUE){
 }else {
   echo "Error INSERTING company DATA!" . $connection->error . "</br>" ;
 }
+
+
+
 ?> 
 
 
