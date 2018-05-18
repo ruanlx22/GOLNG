@@ -29,7 +29,6 @@ while($row = $results->fetch_assoc()){
 }
 
 function matchCategory($category){
-//    $category_label;
     switch ($category) {
         case "Bunkering":
             $category_label = 'B';
@@ -89,7 +88,7 @@ function matchCategory($category){
             }
             #filter {
                 background: #fff;
-                padding: 10px;
+                padding: 2px 10px 2px 10px;
                 margin: 10px;
                 border: 3px solid #000;
             }
@@ -113,12 +112,34 @@ function matchCategory($category){
 
     <div id="map"></div>
     <div id="legend"><h2><center>Legend</center></h2></div>
-    <div id="filter"><h2><center>filter</center></h2></div>
+    <div id="filter"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtelxbrcYzsm362x1oz4vOZaLLQp6lv0k&callback=initMap"
             async defer>        
     </script>
-    
+    <script type="text/javascript">
+        function changeBtnState(btnState){
+            if (btnState == true){
+                btnState = false;
+            }
+            if (btnState == false){
+                btnState == true;
+            }
+            return btnState;
+        }
+
+        function buttonChange(btnState){
+            if (btnState==true) {
+                btnState = changeBtnState(btnState)
+                alert(btnState)
+            }
+            if (btnState==false) {
+                btnState = changeBtnState(btnState)
+                alert(btnState)
+            }
+        }
+    </script>
     <script type="text/javascript" >
+
         function initMap() {
             
             var map = new google.maps.Map(document.getElementById('map'),{
@@ -287,8 +308,8 @@ function matchCategory($category){
 
             /*Here is the legend for map */
             var legend = document.getElementById('legend');
-            var table = document.createElement('table');
-            legend.appendChild(table);
+            var legend_table = document.createElement('table');
+            legend.appendChild(legend_table);
             for (var key in categoryArray) {
                 // var div = document.createElement('div');
                 // div.innerHTML = '<tr><td width="20%">'+shortCategoryArray[key]+'</td><td width="30%"></td><td width="50%">'+categoryArray[key]+'</td></tr>';
@@ -300,12 +321,32 @@ function matchCategory($category){
                 td2.innerHTML = categoryArray[key];
                 tr.appendChild(td1);
                 tr.appendChild(td2);
-                table.appendChild(tr);
+                legend_table.appendChild(tr);
+
             }
-            
             map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 
             /*Here is the label info window*/
+            var filter = document.getElementById('filter');
+            for (key in categoryArray) {
+                var btn = document.createElement('button');
+                btn.innerHTML = shortCategoryArray[key];
+                btn.id = shortCategoryArray[key];
+                var temp_btn = document.getElementById(shortCategoryArray[key]);
+                // temp_btn.onclick = buttonChange(true);
+                /*add function for each button*/
+                // var temp_btn = document.getElementById(shortCategoryArray[key]);
+                // temp_btn.onclick = buttonChange();
+
+                filter.appendChild(btn);
+            }
+
+            // for (key in categoryArray) {
+            //     var temp_btn = document.getElementById(shortCategoryArray[key]);
+            //     temp_btn.onclick = changeBtnState;
+            // }
+
+            map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(filter);
             <?php
             foreach ($companyArray as $sc){
                 $count++;
