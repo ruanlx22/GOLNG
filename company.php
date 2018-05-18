@@ -150,4 +150,16 @@ class company
         $this->image=$image;
         $this->category=$category;
     }
+
+//    public function __construct1()
+//    {
+//        $this->id=0;
+//        $this->name=0;
+//        $this->lat=0;
+//        $this->lon=0;
+//        $this->description=0;
+//        $this->url=0;
+//        $this->image=0;
+//        $this->category=0;
+//    }
 }

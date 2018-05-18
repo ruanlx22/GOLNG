@@ -53,7 +53,8 @@ mysqli_select_db($connection,"GOLNG");
 $sql = "CREATE TABLE userinfo (
 id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 name varchar(100) DEFAULT NULL,
-password varchar(50) DEFAULT NULL
+password varchar(50) DEFAULT NULL,
+company int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci";
 
 if ($connection->query($sql) === true) {
@@ -81,9 +82,9 @@ if ($connection->query($sql) === true) {
 }
 
 //Here add userinfo
-$sql = "INSERT INTO userinfo (name, password)
+$sql = "INSERT INTO userinfo (name, password, company)
         VALUES
-        ('nero', '22222')";
+        ('nero', '22222', '1')";
 
 if($connection->query($sql) === TRUE){
   echo " userinfo INSERTED successfully!" . "</br>";
@@ -140,6 +141,9 @@ if($connection->query($sql) === TRUE){
 }else {
   echo "Error INSERTING company DATA!" . $connection->error . "</br>" ;
 }
+
+
+
 ?> 
 
 
