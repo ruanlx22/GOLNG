@@ -118,35 +118,35 @@ function matchCategory($category){
     </script>
     <script type="text/javascript">
         
-        function buttonChange(btnState, id){
-            if (btnState==true) {
-                // marker1.setMap(map);
-                setMapOnAll(null);
-            }
-            if (btnState==false) {
-                // marker.setMap(null);
-                setMapOnAll(map);
-            }
-        }
+        // function buttonChange(btnState, id){
+        //     if (btnState==true) {
+        //         // marker1.setMap(map);
+        //         setMapOnAll(null);
+        //     }
+        //     if (btnState==false) {
+        //         // marker.setMap(null);
+        //         setMapOnAll(map);
+        //     }
+        // }
 
-        function changeBtnState(){
-            if (this.state === undefined){
-                this.state = true;
-            }
-            state = this.state;
-            if (state == true){
-                state = false;
-            }else {
-                state = true;
-            }
-            this.state=state;
-            id = this.id;
-            alert(buttonChange(state,id));
+        // function changeBtnState(){
+        //     if (this.state === undefined){
+        //         this.state = true;
+        //     }
+        //     state = this.state;
+        //     if (state == true){
+        //         state = false;
+        //     }else {
+        //         state = true;
+        //     }
+        //     this.state=state;
+        //     id = this.id;
+        //     alert(buttonChange(state,id));
 
-        }
+        // }
     </script>
     <script type="text/javascript" >
-
+        var markerArray = [];
         function initMap() {
             
             var map = new google.maps.Map(document.getElementById('map'),{
@@ -154,11 +154,6 @@ function matchCategory($category){
                 center: {lat: 59.304,lng: 18.080},
                 streetViewControl: false,
                 mapTypeControl: false,
-                // mapTypeControl: true,
-                // mapTypeControlOptions: {
-                //     style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-                //     mapTypeIds: ['roadmap']
-                // }
                 styles: [
                     
                     {
@@ -306,21 +301,18 @@ function matchCategory($category){
                     }
                 ]
             });
+            
+            // var markerArray = new Array();//markerArray
+            
             var infoWindow = new google.maps.InfoWindow;
             var categoryArray = new Array("Bunkering","Consulting","Education","end-user technologies","Ports","Research","Shipbuilding","Shipping","Shipbuilding & Repair","Storage","Training");
             var shortCategoryArray = new Array("B","C","Edu","eut","P","R","Spb","Sb","S&R","Stor","T");
-
-            /*Here is the filter for map  */
-
 
             /*Here is the legend for map */
             var legend = document.getElementById('legend');
             var legend_table = document.createElement('table');
             legend.appendChild(legend_table);
             for (var key in categoryArray) {
-                // var div = document.createElement('div');
-                // div.innerHTML = '<tr><td width="20%">'+shortCategoryArray[key]+'</td><td width="30%"></td><td width="50%">'+categoryArray[key]+'</td></tr>';
-                // table.appendChild(div);
                 var tr = document.createElement('tr');
                 var td1 =document.createElement('td');
                 var td2 = document.createElement('td');
@@ -331,24 +323,43 @@ function matchCategory($category){
                 legend_table.appendChild(tr);
 
             }
+            var tr1 = document.createElement('tr');
+            var td1_1 =document.createElement('td');
+            var td1_2 = document.createElement('td');
+            td1_1.style.background="#666666";
+            td1_2.innerHTML = "This color means hidden";
+            tr1.appendChild(td1_1);
+            tr1.appendChild(td1_2);
+            legend_table.appendChild(tr1);
+            var tr2 = document.createElement('tr');
+            var td2_1 =document.createElement('td');
+            var td2_2 = document.createElement('td');
+            td2_1.style.border="1px solid black";
+            td2_2.innerHTML = "This color means display";
+            tr2.appendChild(td2_1);
+            tr2.appendChild(td2_2);
+            legend_table.appendChild(tr2);
             map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 
-            /*Here is the filter window*/
 
+            /*Here is the filter window*/
             function buttonChange(btnState, id){
                 if (btnState==true) {
                 // marker1.setMap(map);
+                    document.getElementById(id).style.background="#666666";
                     setMapOnMark(null,id);
+
                 }
                 if (btnState==false) {
                 // marker.setMap(null);
+                    document.getElementById(id).style.background="#ffffff";
                     setMapOnMark(map,id);
                 }
             }
 
             function changeBtnState(){
                 if (this.state === undefined){
-                    this.state = true;
+                    this.state = false;
                 }
                 state = this.state;
                 if (state == true){
@@ -361,12 +372,20 @@ function matchCategory($category){
                 return (buttonChange(state,id));
             }
 
-            function setMapOnMark(map) {
-                for (var i = 0; i < markers.length; i++) {
-                    markers[i].setMap(map);
+            function setMapOnMark(state, id) {
+                // showAllMarks();
+                for (var i = 0; i < markerArray.length; i++) {
+                    if (markerArray[i].getLabel().text==id) {
+                        markerArray[i].setMap(state);
+                    }
                 }
             }
 
+            function showAllMarks(){
+                for (var i =0; i<markerArray.length;i++){
+                    markerArray[i].setMap(map);
+                }
+            }
 
             var filter = document.getElementById('filter');
             for (key in categoryArray) {
@@ -374,19 +393,11 @@ function matchCategory($category){
                 btn.innerHTML = shortCategoryArray[key];
                 btn.id = shortCategoryArray[key];
                 btn.onclick = changeBtnState;
-                // btn.id.attachEvent("onclick",test());
-                // document.getElementById(shortCategoryArray[key]).onclick=buttonChange(true);
-                // var temp_btn = document.getElementById(shortCategoryArray[key]);
-                // temp_btn.onclick = test();
-                // temp_btn.onclick = buttonChange(true);
-                /*add function for each button*/
-                // var temp_btn = document.getElementById(shortCategoryArray[key]);
-                // temp_btn.onclick = buttonChange();
                 filter.appendChild(btn);
             }
 
             map.controls[google.maps.ControlPosition.TOP_LEFT].push(filter);
-            var markerArray = new Array();//marker数组
+            
             <?php
             foreach ($companyArray as $sc){
                 $count++;
@@ -399,7 +410,9 @@ function matchCategory($category){
                     map:map,
                     label:{ text: '<?php echo matchCategory($sc->getCategory())?>'}
                     });
-                    markerArray[<?php echo $count-1?>] = marker<?php echo $count?>;
+
+                    /*// markerArray[<?php echo $count-1?>] = marker<?php echo $count?>;*/
+                    markerArray.push(marker<?php echo $count ?>);
                     var contentString<?php echo $count?> =
                     '<div>'
                         +'<p>Company: <?php echo $sc->getName() ?></p>'
