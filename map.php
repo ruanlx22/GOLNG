@@ -117,25 +117,32 @@ function matchCategory($category){
             async defer>        
     </script>
     <script type="text/javascript">
-        function changeBtnState(btnState){
-            if (btnState == true){
-                btnState = false;
-            }
-            if (btnState == false){
-                btnState == true;
-            }
-            return btnState;
-        }
-
-        function buttonChange(btnState){
+        
+        function buttonChange(btnState, id){
             if (btnState==true) {
-                btnState = changeBtnState(btnState)
-                alert(btnState)
+                // marker1.setMap(map);
+                setMapOnAll(null);
             }
             if (btnState==false) {
-                btnState = changeBtnState(btnState)
-                alert(btnState)
+                // marker.setMap(null);
+                setMapOnAll(map);
             }
+        }
+
+        function changeBtnState(){
+            if (this.state === undefined){
+                this.state = true;
+            }
+            state = this.state;
+            if (state == true){
+                state = false;
+            }else {
+                state = true;
+            }
+            this.state=state;
+            id = this.id;
+            alert(buttonChange(state,id));
+
         }
     </script>
     <script type="text/javascript" >
@@ -326,27 +333,60 @@ function matchCategory($category){
             }
             map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 
-            /*Here is the label info window*/
+            /*Here is the filter window*/
+
+            function buttonChange(btnState, id){
+                if (btnState==true) {
+                // marker1.setMap(map);
+                    setMapOnMark(null,id);
+                }
+                if (btnState==false) {
+                // marker.setMap(null);
+                    setMapOnMark(map,id);
+                }
+            }
+
+            function changeBtnState(){
+                if (this.state === undefined){
+                    this.state = true;
+                }
+                state = this.state;
+                if (state == true){
+                    state = false;
+                }else {
+                    state = true;
+                }
+                this.state=state;
+                id = this.id;
+                return (buttonChange(state,id));
+            }
+
+            function setMapOnMark(map) {
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setMap(map);
+                }
+            }
+
+
             var filter = document.getElementById('filter');
             for (key in categoryArray) {
                 var btn = document.createElement('button');
                 btn.innerHTML = shortCategoryArray[key];
                 btn.id = shortCategoryArray[key];
-                var temp_btn = document.getElementById(shortCategoryArray[key]);
+                btn.onclick = changeBtnState;
+                // btn.id.attachEvent("onclick",test());
+                // document.getElementById(shortCategoryArray[key]).onclick=buttonChange(true);
+                // var temp_btn = document.getElementById(shortCategoryArray[key]);
+                // temp_btn.onclick = test();
                 // temp_btn.onclick = buttonChange(true);
                 /*add function for each button*/
                 // var temp_btn = document.getElementById(shortCategoryArray[key]);
                 // temp_btn.onclick = buttonChange();
-
                 filter.appendChild(btn);
             }
 
-            // for (key in categoryArray) {
-            //     var temp_btn = document.getElementById(shortCategoryArray[key]);
-            //     temp_btn.onclick = changeBtnState;
-            // }
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(filter);
 
-            map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(filter);
             <?php
             foreach ($companyArray as $sc){
                 $count++;
