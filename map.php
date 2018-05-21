@@ -386,7 +386,7 @@ function matchCategory($category){
             }
 
             map.controls[google.maps.ControlPosition.TOP_LEFT].push(filter);
-
+            var markerArray = new Array();//marker数组
             <?php
             foreach ($companyArray as $sc){
                 $count++;
@@ -399,6 +399,7 @@ function matchCategory($category){
                     map:map,
                     label:{ text: '<?php echo matchCategory($sc->getCategory())?>'}
                     });
+                    markerArray[<?php echo $count-1?>] = marker<?php echo $count?>;
                     var contentString<?php echo $count?> =
                     '<div>'
                         +'<p>Company: <?php echo $sc->getName() ?></p>'
