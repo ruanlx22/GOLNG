@@ -142,7 +142,32 @@ if($connection->query($sql) === TRUE){
   echo "Error INSERTING company DATA!" . $connection->error . "</br>" ;
 }
 
+$sql = "CREATE TABLE relationship (
+id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+company_start int NOT NULL,
+company_end int NOT NULL,
+description VARCHAR(255) NOT NULL
+)ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci";
 
+if ($connection->query($sql) === true) {
+    echo "company relationship table created successfully" . "</br>";
+} else {
+    echo "Error in creating relationship company table " . $connection->error . "</br>";
+}
+
+//Here add userinfo
+$sql = "INSERT INTO relationship (id, company_start, company_end, description)
+        VALUES
+        (null, '32', '1', 'This company provides services for us!'),
+        (null, '32', '3', 'This company provides services for us!'),
+        (null, '39', '32', 'This company provides services for us!'),
+        (null, '33', '21', 'This company provides services for us!')";
+
+if($connection->query($sql) === TRUE){
+    echo " relationship INSERTED successfully!" . "</br>";
+}else {
+    echo "Error INSERTING relationship DATA!" . $connection->error . "</br>" ;
+}
 
 ?> 
 
