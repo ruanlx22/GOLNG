@@ -2,7 +2,7 @@
 require_once('company.php');
 session_start();
 $USER = 'root';
-$PASSWORD = '';
+$PASSWORD = 'root';
 $SERVER = 'localhost';
 $DB = 'GOLNG';
 
@@ -420,6 +420,12 @@ function matchCategory($category){
                 filter.appendChild(btn);
             }
 
+            //Add show all marks button
+            var btn = document.createElement('button');
+            btn.innerHTML = "ShowAll";
+            btn.onclick = showAllMarks;
+            filter.appendChild(btn);
+            
             var slist = '<?php echo urlencode(json_encode($relationshipArray));?>';
             var list = eval(decodeURIComponent(slist));
 
