@@ -22,11 +22,27 @@ if ($results){
 
 $count = 0;
 $companyArray = [];
+$relationshipArray = [];
 while($row = $results->fetch_assoc()){
-//    $count++;
     $company = new company($row['id'],$row['name'],$row['lat'],$row['lon'],$row['description'],$row['url'],$row['image'],$row['category']);
     $companyArray[] = $company;
 }
+
+foreach ($companyArray as $com){
+    $sqlRe = "SELECT * FROM relationship where (company_start = ".$com->getId()." or company_end = ".$com->getId().")";
+    $resultRe = mysqli_query($conn,$sqlRe);
+    if ($resultRe){
+
+    } else {
+        echo "Error get company info!" . $connection->error . "</br>" ;
+    }
+    $tempArray = [];
+    while($row = $resultRe->fetch_assoc()){
+        $tempArray[] = [$row['company_start'],$row['company_end']];
+    }
+    $relationshipArray[] = $tempArray;
+}
+
 
 function matchCategory($category){
     switch ($category) {
@@ -69,6 +85,7 @@ function matchCategory($category){
     }
     return $category_label;
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -147,6 +164,7 @@ function matchCategory($category){
     </script>
     <script type="text/javascript" >
         var markerArray = [];
+        var lineArray = [];
         function initMap() {
             
             var map = new google.maps.Map(document.getElementById('map'),{
@@ -387,6 +405,12 @@ function matchCategory($category){
                 }
             }
 
+            function hideAllMarks(){
+                for (var i =0; i<markerArray.length;i++){
+                    markerArray[i].setMap(null);
+                }
+            }
+
             var filter = document.getElementById('filter');
             for (key in categoryArray) {
                 var btn = document.createElement('button');
@@ -396,7 +420,13 @@ function matchCategory($category){
                 filter.appendChild(btn);
             }
 
+            var slist = '<?php echo urlencode(json_encode($relationshipArray));?>';
+            var list = eval(decodeURIComponent(slist));
+
+
+
             map.controls[google.maps.ControlPosition.TOP_LEFT].push(filter);
+
             
             <?php
             foreach ($companyArray as $sc){
@@ -411,32 +441,85 @@ function matchCategory($category){
                     label:{ text: '<?php echo matchCategory($sc->getCategory())?>'}
                     });
 
-                    /*// markerArray[<?php echo $count-1?>] = marker<?php echo $count?>;*/
+
                     markerArray.push(marker<?php echo $count ?>);
                     var contentString<?php echo $count?> =
-                    '<div>'
+                    '<div id = "companyInfo<?php echo $count?>">'
+                        +'<p>Company: <?php echo $sc->getId() ?></p>'
                         +'<p>Company: <?php echo $sc->getName() ?></p>'
                         +'<img src=\'<?php echo $sc->getImage() ?>\' class=\'logo\'>'
                         +'<br>'
                         +'<p><?php echo htmlentities($sc->getDescription(), ENT_QUOTES)?></p>'
-                        +'<a href=\'<?php echo $sc->getUrl()?>\'>Link</a>'
+                        +'<a href=\'<?php echo $sc->getUrl()?>\'>Link</a><br>'
+                        //+'<button id="showRe<?php //echo $count?>//" onclick=\'showRe(32)\'>Show Re</button><br>'
+                        //+'<form action="" method="post"><input type="hidden" value="<?php //echo $count?>//" name="comId"><input type="hidden" value="1" name="checkRe"><button>show</button></form>'
                      +'</div>';
+                    var lineSymbol = {
+                        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                    };
                     marker<?php echo $count?>.addListener('click', function() {
                         infoWindow.setContent(contentString<?php echo $count ?>);
                         infoWindow.open(map, marker<?php echo $count ?>);
+
+                        var companyInfo<?php echo $count?> = document.getElementById('companyInfo<?php echo $count?>');
+                        var btnShowRe = document.createElement('button');
+                        //var btnShowRe = document.getElementById('showRe<?php //echo $count?>//');
+                        btnShowRe.innerHTML = "Show Re";
+                        btnShowRe.id = "showRe<?php echo $count?>";
+                        btnShowRe.onclick = function (){
+                            hideAllMarks();
+                            var id = <?php echo $count?>-1;
+                            // console.log(list[id]);
+                            for(i in lineArray){
+                                lineArray[i].setMap(null);
+                            }
+                            for(i in list[id]){
+                                markerArray[list[id][i][0]-1].setMap(map);
+                                markerArray[list[id][i][1]-1].setMap(map);
+                                var line = new google.maps.Polyline({
+                                    path: [markerArray[list[id][i][0]-1].getPosition(), markerArray[list[id][i][1]-1].getPosition()],
+                                    icons: [{
+                                        icon: lineSymbol,
+                                        offset: '100%'
+                                    }],
+                                    map: map
+                                });
+                                line.setMap(map);
+                                lineArray.push(line);
+
+                            }
+
+
+                        };
+                        companyInfo<?php echo $count?>.appendChild(btnShowRe);
+                        //var btnShowRe = document.getElementById('showRe<?php //echo $count?>//');
+
                     });
                     map.addListener('click', function() {
                         infoWindow.close();
                     });
-                    
-                    // ";
+
+
+
             <?php
 
                 }
 
             }
+
             ?>
+            function showRe(id) {
+                // hideAllMarks();
+                // buttonChange(false, id)
+
+                alert(this.object);
+            }
+
+
+            //console.log(list);
+
         }
+
     </script>
 
     </body>
