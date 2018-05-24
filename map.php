@@ -402,7 +402,11 @@ function matchCategory($category){
             function showAllMarks(){
                 for (var i =0; i<markerArray.length;i++){
                     markerArray[i].setMap(map);
+                    
                 }
+                for(var j=0;j<shortCategoryArray.length;j++){
+                        document.getElementById(shortCategoryArray[j]).style.background="#ffffff";
+                    }
             }
 
             function hideAllMarks(){
