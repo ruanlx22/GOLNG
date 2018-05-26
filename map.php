@@ -134,7 +134,7 @@ function matchCategory($category){
     <div id="map"></div>
     <div id="legend"><h2><center>Legend</center></h2></div>
     <div id="filter"></div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtelxbrcYzsm362x1oz4vOZaLLQp6lv0k&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?&language=EN&region=SW&key=AIzaSyAtelxbrcYzsm362x1oz4vOZaLLQp6lv0k&callback=initMap"
             async defer>        
     </script>
     <script type="text/javascript">
@@ -409,9 +409,15 @@ function matchCategory($category){
                     markerArray[i].setMap(map);
                     
                 }
-                for(i in lineArray){
-                    lineArray[i].setMap(null);
+
+                for(var j=0;j<shortCategoryArray.length;j++){
+                    document.getElementById(shortCategoryArray[j]).style.background="#ffffff";
                 }
+
+                for(a in lineArray){
+                    lineArray[a].setMap(null);
+                }
+
             }
 
             function hideAllMarks(){
@@ -432,6 +438,12 @@ function matchCategory($category){
             //Add show all marks button
             var btn = document.createElement('button');
             btn.innerHTML = "ShowAll";
+            btn.onclick = showAllMarks;
+            filter.appendChild(btn);
+
+            //
+            var btn = document.createElement('button');
+            btn.innerHTML = "Reload";
             btn.onclick = showAllMarks;
             filter.appendChild(btn);
             
