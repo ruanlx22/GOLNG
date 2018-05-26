@@ -407,6 +407,7 @@ function matchCategory($category){
             function showAllMarks(){
                 for (var i =0; i<markerArray.length;i++){
                     markerArray[i].setMap(map);
+                    
                 }
                 for(i in lineArray){
                     lineArray[i].setMap(null);
