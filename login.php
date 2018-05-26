@@ -38,7 +38,7 @@ if (isset($_POST['submit'])){
         elseif (!mysqli_num_rows($resultCom)){
             $company = new company(0,0,0,0,0,0,0,0);
             $user = [$username,$company];
-            $_SESSION['user'] = $user;
+            $_SESSION['user'] = serialize($user);
 //            header("Refresh:3;url=map.php");
         }
         else{
@@ -46,7 +46,7 @@ if (isset($_POST['submit'])){
             $company = new company($row['id'],$row['name'],$row['lat'],$row['lon'],$row['description'],$row['url'],$row['image'],$row['category']);
             $user = [$username,$company];
 //            echo $company->getName();
-            $_SESSION['user'] = $user;
+            $_SESSION['user'] = serialize($user);
             //echo $_SESSION['user'][0];
 //            echo $_SESSION['user'][1]->getName();
             header("Refresh:1;url=map.php");

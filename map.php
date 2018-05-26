@@ -2,7 +2,7 @@
 require_once('company.php');
 session_start();
 $USER = 'root';
-$PASSWORD = 'root';
+$PASSWORD = '';
 $SERVER = 'localhost';
 $DB = 'GOLNG';
 
@@ -30,6 +30,8 @@ while($row = $results->fetch_assoc()){
 
 foreach ($companyArray as $com){
     $sqlRe = "SELECT * FROM relationship where (company_start = ".$com->getId()." or company_end = ".$com->getId().")";
+//    $sqlRe = "SELECT * FROM relationship where adder = ".$com->getId();
+//    echo $sqlRe;
     $resultRe = mysqli_query($conn,$sqlRe);
     if ($resultRe){
 
@@ -38,11 +40,10 @@ foreach ($companyArray as $com){
     }
     $tempArray = [];
     while($row = $resultRe->fetch_assoc()){
-        $tempArray[] = [$row['company_start'],$row['company_end']];
+        $tempArray[] = [$row['company_start'],$row['company_end'],$row['description']];
     }
     $relationshipArray[] = $tempArray;
 }
-
 
 function matchCategory($category){
     switch ($category) {
@@ -118,7 +119,10 @@ function matchCategory($category){
         <span> | </span>
         <?php
             if(isset($_SESSION['user'])){
-                echo "<a class='navBar'>".$_SESSION['user'][1]->getName()."</a>";
+                $user=unserialize($_SESSION['user']);
+                echo "<a class='navBar'>".$user[1]->getName()."</a>";
+                echo "<span> | </span><a class='navBar' href='setRe.php'>Set Relationship</a>";
+                echo "<span> | </span><a class='navBar' href='editRe.php'>Edit Relationship</a>";
                 echo "<span> | </span><a class='navBar' href='logout.php'>Log out</a>";
             }
             else{
@@ -165,6 +169,7 @@ function matchCategory($category){
     <script type="text/javascript" >
         var markerArray = [];
         var lineArray = [];
+        var companyMap = [];
         function initMap() {
             
             var map = new google.maps.Map(document.getElementById('map'),{
@@ -403,6 +408,9 @@ function matchCategory($category){
                 for (var i =0; i<markerArray.length;i++){
                     markerArray[i].setMap(map);
                 }
+                for(i in lineArray){
+                    lineArray[i].setMap(null);
+                }
             }
 
             function hideAllMarks(){
@@ -426,7 +434,9 @@ function matchCategory($category){
             btn.onclick = showAllMarks;
             filter.appendChild(btn);
             
-            var slist = '<?php echo urlencode(json_encode($relationshipArray));?>';
+            //var slist = '<?php //echo urlencode(json_encode($relationshipArray));?>//';
+            //var list = eval(decodeURIComponent(slist));
+            var slist = '<?php echo json_encode($relationshipArray);?>';
             var list = eval(decodeURIComponent(slist));
 
 
@@ -449,6 +459,7 @@ function matchCategory($category){
 
 
                     markerArray.push(marker<?php echo $count ?>);
+                    companyMap.push('<?php echo $sc->getName() ?>');
                     var contentString<?php echo $count?> =
                     '<div id = "companyInfo<?php echo $count?>">'
                         +'<p>Company: <?php echo $sc->getId() ?></p>'
@@ -472,12 +483,14 @@ function matchCategory($category){
                         //var btnShowRe = document.getElementById('showRe<?php //echo $count?>//');
                         btnShowRe.innerHTML = "Show Re";
                         btnShowRe.id = "showRe<?php echo $count?>";
+                        var relationship = document.createElement('p');
+                        var str = 'Relationship:'+'<br>';
                         btnShowRe.onclick = function (){
                             hideAllMarks();
                             var id = <?php echo $count?>-1;
-                            // console.log(list[id]);
-                            for(i in lineArray){
-                                lineArray[i].setMap(null);
+                            // console.log(list[id][1][2]);
+                            for(a in lineArray){
+                                lineArray[a].setMap(null);
                             }
                             for(i in list[id]){
                                 markerArray[list[id][i][0]-1].setMap(map);
@@ -494,10 +507,20 @@ function matchCategory($category){
                                 lineArray.push(line);
 
                             }
-
+                            infoWindow.close();
 
                         };
+                        for(j in list[<?php echo $count?>-1]){
+                            // if(list[id][i][0]-1==)
+                            // console.log(companyMap[31]);
+                            //console.log(companyMap[list[<?php //echo $count?>//-1][j][0]-1]);
+
+                            str = str+companyMap[list[<?php echo $count?>-1][j][0]-1]+"-->"+companyMap[list[<?php echo $count?>-1][j][1]-1]+":&nbsp&nbsp"+list[<?php echo $count?>-1][j][2]+'<br>';
+                        }
+                        relationship.innerHTML = str;
+
                         companyInfo<?php echo $count?>.appendChild(btnShowRe);
+                        companyInfo<?php echo $count?>.appendChild(relationship);
                         //var btnShowRe = document.getElementById('showRe<?php //echo $count?>//');
 
                     });

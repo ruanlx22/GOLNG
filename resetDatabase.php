@@ -19,6 +19,10 @@ if (!$connection){
 
 echo  "Successfully connected to DB!" . "</br>";
 
+if (!$connection){
+    die("Connection to DB failed :" . mysqli_connect_error() . "</br>");
+}
+
 //Dropping old database
 $sql = "DROP DATABASE IF EXISTS GOLNG";
 if ($connection->query($sql) === TRUE){
@@ -146,7 +150,8 @@ $sql = "CREATE TABLE relationship (
 id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 company_start int NOT NULL,
 company_end int NOT NULL,
-description VARCHAR(255) NOT NULL
+description VARCHAR(255) NOT NULL,
+adder int NOT NULL
 )ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci";
 
 if ($connection->query($sql) === true) {
@@ -156,12 +161,13 @@ if ($connection->query($sql) === true) {
 }
 
 //Here add userinfo
-$sql = "INSERT INTO relationship (id, company_start, company_end, description)
+$sql = "INSERT INTO relationship (id, company_start, company_end, description,adder)
         VALUES
-        (null, '32', '1', 'This company provides services for us!'),
-        (null, '32', '3', 'This company provides services for us!'),
-        (null, '39', '32', 'This company provides services for us!'),
-        (null, '33', '21', 'This company provides services for us!')";
+        (null, '32', '1', 'This company provides services for us!','32'),
+        (null, '32', '3', 'This company provides services for us!','32'),
+        (null, '39', '32', 'This company provides services for us!','32'),
+        (null, '39', '32', 'This company provides services for us!','39'),
+        (null, '33', '21', 'This company provides services for us!','33')";
 
 if($connection->query($sql) === TRUE){
     echo " relationship INSERTED successfully!" . "</br>";
